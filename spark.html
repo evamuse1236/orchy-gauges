@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sparkline</title>
-<link rel="stylesheet" href="gauge.css?v=2">
+<link rel="stylesheet" href="gauge.css?v=3">
 <style>
   .inst { grid-template-rows: auto minmax(0, 1fr); place-items: stretch; gap: clamp(4px, 3cqh, 10px); }
   .read { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; }
@@ -32,7 +32,7 @@
   </div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js?v=2"></script>
+<script src="gauge.js?v=3"></script>
 <script>
   const { num, str, judge, state, svg, el, caption, settle, fmt } = G;
   const vals = str("values").split(",").map(parseFloat).filter(Number.isFinite).slice(-60);

@@ -62,8 +62,8 @@ body {
 .panel {
   block-size: 100dvh;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: clamp(4px, 2vmin, 10px);
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: clamp(6px, 3vmin, 14px);
   padding: var(--pad-b) var(--pad-i);
   overflow: clip;
 }
@@ -80,10 +80,12 @@ body {
   container-type: size;
   display: grid;
   place-items: center;
+  align-content: start;
 }
-.inst > svg { inline-size: 100cqw; block-size: 100cqh; overflow: visible; }
+.inst > svg { inline-size: min(100cqw, 123.4cqh); aspect-ratio: 200 / 162; overflow: visible; }
 
 .cap {
+  order: -1;
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;

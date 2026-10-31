@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Odometer</title>
-<link rel="stylesheet" href="gauge.css?v=2">
+<link rel="stylesheet" href="gauge.css?v=3">
 <style>
-  .inst { gap: clamp(4px, 4cqh, 12px); align-content: center; }
+  .inst { gap: clamp(4px, 4cqh, 12px); }
   .odo {
     --h: min(56cqh, calc(118cqw / (var(--n) * 0.78 + 0.6)));
     display: flex; align-items: center; gap: calc(var(--h) * 0.06);
@@ -39,7 +39,7 @@
   <div class="inst"><div class="odo" role="img"></div><div class="unit"></div></div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js?v=2"></script>
+<script src="gauge.js?v=3"></script>
 <script>
   const { num, str, judge, state, el, caption, settle, fmt } = G;
   const v = num("value");

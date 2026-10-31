@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>LED bar</title>
-<link rel="stylesheet" href="gauge.css?v=2">
+<link rel="stylesheet" href="gauge.css?v=3">
 <style>
-  .inst { place-items: stretch; align-content: center; gap: clamp(8px, 7cqh, 18px); }
+  .inst { place-items: stretch; gap: clamp(8px, 7cqh, 18px); }
   .read { display: flex; align-items: baseline; gap: 0.35em; min-inline-size: 0; }
   .num { font-size: clamp(26px, min(30cqh, 16cqw), 64px); font-weight: 650; line-height: 1; }
   :root[data-state="look"] .num, :root[data-state="broken"] .num { color: var(--ink); text-shadow: 0 0 10px var(--glow); }
@@ -29,7 +29,7 @@
   </div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js?v=2"></script>
+<script src="gauge.js?v=3"></script>
 <script>
   const { num, str, judge, state, el, caption, settle, fmt } = G;
   const min = num("min", 0), max = num("max", 100), v = num("value");
