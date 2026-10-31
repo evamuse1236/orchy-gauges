@@ -41,7 +41,7 @@
   svg("path", { d: arc(A0, A1, r + 5), fill: "none", stroke: "var(--dim)", "stroke-width": 2 }, g);
   const look = num("look"), broken = num("broken"), low = str("good", "high") === "low";
   const zone = (a, b, color) => Number.isFinite(a) && Number.isFinite(b) && b > a &&
-    svg("path", { d: arc(ang(a), ang(b), r + 5), fill: "none", stroke: color, "stroke-width": 2.5, opacity: 0.4 }, g);
+    svg("path", { d: arc(ang(a), ang(b), r + 5), fill: "none", stroke: color, "stroke-width": 2, opacity: 0.22 }, g);
   if (low) {
     zone(Number.isFinite(look) ? look : broken, Number.isFinite(broken) ? broken : max, "var(--look)");
     zone(broken, max, "var(--broken)");
