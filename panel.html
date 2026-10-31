@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Mission control</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --paper: light-dark(oklch(1 0 none), oklch(0.205 0 none));
+    --ink: light-dark(oklch(0.32 0.01 85), oklch(0.94 0.003 85));
+    --muted: light-dark(oklch(0.56 0.006 85), oklch(0.68 0.004 85));
+    --track: light-dark(oklch(0.92 0.004 85), oklch(0.32 0 none));
+    --line: light-dark(oklch(0.91 0.004 85), oklch(0.3 0 none));
+    --fine: light-dark(oklch(0.55 0.09 155), oklch(0.7 0.11 165));
+    --look: light-dark(oklch(0.62 0.15 55), oklch(0.74 0.14 58));
+    --broken: light-dark(oklch(0.56 0.18 25), oklch(0.67 0.19 25));
+    --unknown: var(--muted);
+  }
+  [data-theme="light"] { color-scheme: light; }
+  [data-theme="dark"] { color-scheme: dark; }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; min-inline-size: 0; }
+  html, body { block-size: 100%; }
+  body {
+    background: var(--paper); color: var(--ink); overflow: clip;
+    font: 400 13px/1.35 ui-sans-serif, -apple-system, "Segoe UI", Inter, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .panel {
+    block-size: 100%; container-type: inline-size;
+    display: grid; grid-template-rows: auto 1fr; gap: 10px; padding: 10px 2px 6px;
+  }
+
+  .head { display: flex; align-items: center; gap: 8px; padding-inline: 2px; }
+  .head b { font-size: 15px; font-weight: 600; white-space: nowrap; overflow: clip; text-overflow: ellipsis; }
+  .when { margin-inline-start: auto; color: var(--muted); font-size: 12px; white-space: nowrap; }
+
+  .board {
+    display: grid; min-block-size: 0; overflow: clip;
+    grid-template-columns: repeat(var(--cols, 3), minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr);
+    gap: 1px; background: var(--line);
+    border: 1px solid var(--line); border-radius: 12px;
+  }
+  .cell {
+    background: var(--paper); padding: 10px 12px;
+    display: grid; grid-template-rows: auto 1fr auto; gap: 4px;
+  }
+  .cell.look, .cell.broken { background: color-mix(in oklch, var(--c) 9%, var(--paper)); }
+
+  .top { display: flex; align-items: center; gap: 6px; }
+  .label { color: var(--muted); font-size: 12px; font-weight: 500; white-space: nowrap; overflow: clip; text-overflow: ellipsis; }
+  .state { margin-inline-start: auto; display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 600; white-space: nowrap; color: var(--c); }
+  .lamp { inline-size: 8px; block-size: 8px; border-radius: 50%; flex: none; background: var(--c); }
+  .look .lamp, .broken .lamp { box-shadow: 0 0 0 3px color-mix(in oklch, var(--c) 25%, transparent); }
+  .fine { --c: var(--fine); } .look { --c: var(--look); } .broken { --c: var(--broken); } .unknown { --c: var(--unknown); }
+
+  .body { align-self: center; display: grid; gap: 7px; }
+  .mid { display: flex; align-items: center; gap: 10px; }
+  .val { font-size: 24px; font-weight: 650; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .val small { font-size: 13px; font-weight: 500; color: var(--muted); letter-spacing: 0; margin-inline-start: 5px; }
+
+  .ring { inline-size: 34px; block-size: 34px; flex: none; rotate: -90deg; }
+  .ring circle { fill: none; stroke-width: 4.5; }
+  .ring .t { stroke: var(--track); }
+  .ring .f { stroke: var(--c); stroke-linecap: round; }
+
+  .gauge { display: flex; align-items: center; gap: 8px; }
+  .gauge small { color: var(--muted); font-size: 11px; white-space: nowrap; }
+  .meter { position: relative; flex: 1; block-size: 4px; border-radius: 2px; background: var(--track); }
+  .meter i { position: absolute; inset-block: 0; inset-inline-start: 0; border-radius: 2px; background: var(--c); }
+  .big { inline-size: 14px; block-size: 14px; border-radius: 50%; flex: none; background: var(--c); box-shadow: 0 0 0 4px color-mix(in oklch, var(--c) 22%, transparent), 0 0 14px color-mix(in oklch, var(--c) 45%, transparent); }
+
+  .spark { flex: 1; inline-size: 100%; block-size: 26px; overflow: visible; }
+  .spark path { fill: none; stroke: var(--c); stroke-width: 1.75; stroke-linejoin: round; stroke-linecap: round; }
+  .spark circle { fill: var(--c); }
+
+  .why { font-size: 12px; white-space: nowrap; overflow: clip; text-overflow: ellipsis; }
+
+  @container (width < 34rem) {
+    .board { grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 10px; }
+    .cell { padding: 7px 9px; gap: 2px; }
+    .val { font-size: 19px; }
+    .val small { font-size: 12px; margin-inline-start: 4px; }
+    .ring { inline-size: 24px; block-size: 24px; }
+    .head b { font-size: 14px; }
+    .state span { display: none; }
+    .why { font-size: 11px; white-space: normal; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-height: 1.25; }
+    .big { inline-size: 11px; block-size: 11px; }
+    .cell.look .gauge, .cell.broken .gauge { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="panel">
+  <div class="head" id="head"></div>
+  <div class="board" id="board"></div>
+</div>
+<script>
+/* Data comes in the URL as ?d=<base64url JSON>, written by hq check.
+   {updated, cols?, tiles:[{label, state, kind, ...}]}; kinds:
+     ring   value, max, unit       part of a whole
+     since  since, limit, text?    time since an event; the bar fills up to the alarm point
+     spark  values, unit           a count per day, newest last
+     number value, unit
+     word   text
+   "why" shows only on a tile that needs a look. */
+const SAMPLE = {
+  updated: "2026-10-31T10:31:20Z",
+  tiles: [
+    { label: "LMS update", state: "broken", kind: "since", since: "2026-10-31T07:33:23Z", limit: 7,
+      text: "Failed", why: "New assignments may be missing" },
+    { label: "Attendance", state: "look", kind: "number", value: 1, unit: "student stuck",
+      why: "Can't turn on auto attendance. 41 marks went through" },
+    { label: "Students using it", state: "fine", kind: "ring", value: 12, max: 17, unit: "today" },
+    { label: "Last transcript", state: "fine", kind: "since", since: "2026-10-30T14:39:44Z", limit: 25 },
+    { label: "Reading files", state: "fine", kind: "number", value: 317, unit: "copied" },
+    { label: "Site", state: "fine", kind: "word", text: "Up" }
+  ]
+};
+const WORD = { fine: "Fine", look: "Look soon", broken: "Broken", unknown: "Unknown" };
+const RANK = { fine: 0, unknown: 1, look: 2, broken: 3 };
+
+function read() {
+  const d = new URLSearchParams(location.search).get("d");
+  if (!d) return SAMPLE;
+  try {
+    const bin = atob(d.replace(/-/g, "+").replace(/_/g, "/"));
+    return JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
+  } catch { return { updated: null, tiles: [] }; }
+}
+const hours = iso => (Date.now() - Date.parse(iso)) / 36e5;
+function ago(h) {
+  if (h < 1 / 60) return "just now";
+  if (h < 1) return `${Math.round(h * 60)} min ago`;
+  if (h < 48) return `${Math.floor(h)} h ago`;
+  return `${Math.round(h / 24)} days ago`;
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
+
+function ring(v, max) {
+  const r = 13, c = 2 * Math.PI * r, f = max ? Math.min(v / max, 1) : 0;
+  return `<svg class="ring" viewBox="0 0 34 34" aria-hidden="true"><circle class="t" cx="17" cy="17" r="${r}"/>` +
+    `<circle class="f" cx="17" cy="17" r="${r}" stroke-dasharray="${f * c} ${c}"/></svg>`;
+}
+function spark(vals) {
+  const w = 100, h = 26, max = Math.max(...vals, 1), step = w / Math.max(vals.length - 1, 1);
+  const pts = vals.map((v, i) => [i * step, h - 2 - (v / max) * (h - 4)]);
+  return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-hidden="true">` +
+    `<path d="M${pts.map(p => p.join(" ")).join(" L")}" vector-effect="non-scaling-stroke"/></svg>`;
+
+}
+function body(t) {
+  if (t.kind === "ring") return `<div class="mid">${ring(t.value, t.max)}<span class="val">${t.value}<small>of ${t.max} ${esc(t.unit)}</small></span></div>`;
+  if (t.kind === "number") return `<div class="mid"><span class="val">${t.value}<small>${esc(t.unit)}</small></span></div>`;
+  if (t.kind === "word") return `<div class="mid"><i class="big"></i><span class="val">${esc(t.text)}</span></div>`;
+  if (t.kind === "spark") {
+    const sum = t.values.reduce((a, b) => a + b, 0);
+    return `<div class="mid"><span class="val">${sum}<small>${esc(t.unit)}</small></span></div>` +
+      `<div class="gauge">${spark(t.values)}<small>7 days</small></div>`;
+  }
+  const h = hours(t.since), lim = t.limit < 48 ? `${t.limit} h` : `${t.limit / 24} days`;
+  const meter = `<div class="gauge"><div class="meter"><i style="inline-size:${Math.min(h / t.limit, 1) * 100}%"></i></div>` +
+    `<small>alarm ${lim}</small></div>`;
+  const val = t.text ? `${esc(t.text)}<small>last tried ${ago(h)}</small>` : ago(h);
+  return `<div class="mid"><span class="val">${val}</span></div>${meter}`;
+}
+function tile(t) {
+  const s = WORD[t.state] ? t.state : "unknown", bad = s === "look" || s === "broken";
+  return `<div class="cell ${s}"><div class="top"><span class="label">${esc(t.label)}</span>` +
+    `<span class="state"><i class="lamp"></i>${bad ? `<span>${WORD[s]}</span>` : ""}</span></div>` +
+    `<div class="body">${body(t)}</div><div class="why">${bad ? esc(t.why) : ""}</div></div>`;
+}
+function draw() {
+  const d = read(), tiles = [...d.tiles].sort((a, b) => (RANK[b.state] ?? 1) - (RANK[a.state] ?? 1));
+  const bad = tiles.filter(t => t.state === "look" || t.state === "broken");
+  const worst = bad.length ? bad[0].state : "fine";
+  const msg = bad.length ? `${bad.length} ${bad.length === 1 ? "thing needs" : "things need"} a look` : "All fine";
+  document.getElementById("head").innerHTML =
+    `<span class="${worst}"><i class="lamp" style="display:block"></i></span><b>${msg}</b>` +
+    `<span class="when">${d.updated ? "checked " + ago(hours(d.updated)) : ""}</span>`;
+  const board = document.getElementById("board");
+  board.style.setProperty("--cols", d.cols || 3);
+  board.innerHTML = tiles.map(tile).join("");
+}
+draw();
+setInterval(draw, 60000);
+</script>
+</body>
+</html>
