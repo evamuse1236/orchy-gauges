@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arc meter</title>
+<link rel="stylesheet" href="gauge.css">
+<style>
+  .track { stroke: var(--dim); }
+  .fill { stroke: var(--ink); filter: drop-shadow(0 0 4px var(--glow)); }
+  .num { font-size: 40px; font-weight: 650; fill: var(--fg); }
+  :root[data-state="look"] .num, :root[data-state="broken"] .num { fill: var(--ink); }
+  .unit { font-size: 13px; fill: var(--muted); }
+  .end { font-size: 10.5px; fill: var(--muted); }
+  @media (prefers-reduced-motion: no-preference) {
+    .fill { transition: stroke-dashoffset 1100ms cubic-bezier(0.22, 1, 0.36, 1); }
+  }
+</style>
+</head>
+<body>
+<main class="panel"><div class="inst"></div><footer class="cap"></footer></main>
+<script src="gauge.js"></script>
+<script>
+  const { num, str, judge, state, svg, caption, settle, fmt } = G;
+  const min = num("min", 0), max = num("max", 100), v = num("value");
+  const s = state(judge(v));
+  const A0 = -135, A1 = 135, cx = 100, cy = 92, r = 72;
+  const pt = a => [cx + r * Math.sin(a * Math.PI / 180), cy - r * Math.cos(a * Math.PI / 180)];
+  const [x0, y0] = pt(A0), [x1, y1] = pt(A1);
+  const d = `M${x0} ${y0}A${r} ${r} 0 1 1 ${x1} ${y1}`;
+
+  const g = svg("svg", { viewBox: "0 6 200 162", role: "img" });
+  g.setAttribute("aria-label", `${str("label", "Level")}: ${fmt(v)} of ${fmt(max)}`);
+  svg("path", { d, class: "track", fill: "none", "stroke-width": 15, "stroke-linecap": "round" }, g);
+  const fill = svg("path", { d, class: "fill", fill: "none", "stroke-width": 15, "stroke-linecap": "round", pathLength: 100, "stroke-dasharray": "100 200" }, g);
+  fill.style.strokeDashoffset = 100;
+
+  const pct = Math.min(1, Math.max(0, (v - min) / ((max - min) || 1)));
+  const n = svg("text", { x: cx, y: cy + 10, "text-anchor": "middle", class: "num" }, g);
+  n.textContent = Number.isFinite(v) ? fmt(v) : "–";
+  const u = svg("text", { x: cx, y: cy + 32, "text-anchor": "middle", class: "unit" }, g);
+  u.textContent = str("unit", Number.isFinite(v) ? `of ${fmt(max)}` : "no reading");
+  const lo = svg("text", { x: x0, y: y0 + 22, "text-anchor": "middle", class: "end" }, g);
+  lo.textContent = fmt(min, 0);
+  const hi = svg("text", { x: x1, y: y1 + 22, "text-anchor": "middle", class: "end" }, g);
+  hi.textContent = fmt(max, 0);
+
+  document.querySelector(".inst").append(g);
+  if (Number.isFinite(v)) settle(() => { fill.style.strokeDashoffset = 100 - pct * 100; });
+  caption("Level", s);
+</script>
+</body>
+</html>
