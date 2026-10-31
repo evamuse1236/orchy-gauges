@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Arc meter</title>
-<link rel="stylesheet" href="gauge.css">
+<link rel="stylesheet" href="gauge.css?v=2">
 <style>
   .track { stroke: var(--dim); }
   .fill { stroke: var(--ink); filter: drop-shadow(0 0 4px var(--glow)); }
@@ -19,7 +19,7 @@
 </head>
 <body>
 <main class="panel"><div class="inst"></div><footer class="cap"></footer></main>
-<script src="gauge.js"></script>
+<script src="gauge.js?v=2"></script>
 <script>
   const { num, str, judge, state, svg, caption, settle, fmt } = G;
   const min = num("min", 0), max = num("max", 100), v = num("value");

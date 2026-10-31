@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sparkline</title>
-<link rel="stylesheet" href="gauge.css">
+<link rel="stylesheet" href="gauge.css?v=2">
 <style>
   .inst { grid-template-rows: auto minmax(0, 1fr); place-items: stretch; gap: clamp(4px, 3cqh, 10px); }
   .read { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.5em; }
@@ -16,7 +16,7 @@
   .line { stroke: var(--ink); stroke-width: 2.2; fill: none; stroke-linejoin: round; stroke-linecap: round; vector-effect: non-scaling-stroke; filter: drop-shadow(0 0 3px var(--glow)); }
   .area { fill: color-mix(in oklch, var(--ink) 16%, transparent); }
   .lim { stroke: var(--look); stroke-width: 1; stroke-dasharray: 4 4; vector-effect: non-scaling-stroke; }
-  .dot { position: absolute; inline-size: 9px; aspect-ratio: 1; border-radius: 50%; background: var(--ink); box-shadow: 0 0 8px var(--ink); translate: -50% -50%; }
+  .dot { position: absolute; inline-size: 9px; aspect-ratio: 1; border-radius: 50%; background: var(--ink); box-shadow: 0 0 8px var(--glow); translate: -50% -50%; }
   .axis { position: absolute; inset-inline-end: 0; color: var(--muted); font-size: 11px; line-height: 1; }
   .axis.top { inset-block-start: 0; } .axis.bot { inset-block-end: 0; }
   @media (prefers-reduced-motion: no-preference) {
@@ -32,7 +32,7 @@
   </div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js"></script>
+<script src="gauge.js?v=2"></script>
 <script>
   const { num, str, judge, state, svg, el, caption, settle, fmt } = G;
   const vals = str("values").split(",").map(parseFloat).filter(Number.isFinite).slice(-60);

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Time clock</title>
-<link rel="stylesheet" href="gauge.css">
+<link rel="stylesheet" href="gauge.css?v=2">
 <style>
   .inst { grid-template-columns: auto minmax(0, 1fr); gap: clamp(10px, 5cqw, 24px); justify-items: start; }
   .inst > svg { inline-size: auto; block-size: min(100cqh, 46cqw); aspect-ratio: 1; }
@@ -27,7 +27,7 @@
   <div class="inst"><div class="txt"><span class="big"></span><span class="sub"></span><span class="sub lim"></span></div></div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js"></script>
+<script src="gauge.js?v=2"></script>
 <script>
   const { num, str, when, span, svg, caption, settle, state } = G;
   const since = when(str("since")), until = when(str("until"));

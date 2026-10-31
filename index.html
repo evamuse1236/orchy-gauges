@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mission control gauges</title>
 <style>
-  :root { color-scheme: dark; --bg: oklch(0 0 none); --fg: oklch(0.94 0 none); --muted: oklch(0.66 0 none); --rim: oklch(0.27 0 none); --accent: oklch(0.82 0.15 78); }
+  :root { color-scheme: dark; --bg: oklch(0.218 0 none); --fg: oklch(0.94 0 none); --muted: oklch(0.66 0 none); --rim: oklch(0.27 0 none); --accent: oklch(0.82 0.15 78); }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, sans-serif; }
   main { max-inline-size: 1100px; margin-inline: auto; padding: clamp(16px, 4vw, 40px) 16px; }
@@ -14,7 +14,7 @@
   p, li { color: var(--muted); max-inline-size: 72ch; }
   .row { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
   figure { margin: 0; }
-  iframe { inline-size: 100%; block-size: 220px; border: 0; border-radius: 14px; background: var(--bg); }
+  iframe { inline-size: 100%; block-size: 220px; border: 0; }
   figcaption { color: var(--muted); font-size: 13px; padding-block-start: 4px; overflow-wrap: anywhere; }
   code { color: var(--accent); }
 </style>
@@ -30,7 +30,8 @@
     <li><code>look</code>, <code>broken</code>: limits that turn the gauge amber or red. Add <code>good=low</code> when smaller is better.</li>
     <li><code>state=fine|look|broken|unknown</code>: set the state yourself.</li>
     <li><code>accent=f2a33a</code>: the project colour (hex, no #). <code>updated=</code> an ISO time adds "checked … ago".</li>
-    <li><code>bg=transparent</code> or a hex: the backdrop behind the panel.</li>
+    <li>By default a gauge has no backdrop, so it sits on the Notion page like text. It follows the page's light or dark theme. <code>theme=light|dark</code> forces one.</li>
+    <li><code>bg=191919</code> (a hex): draw the gauge as a card on that colour instead.</li>
   </ul>
 
   <h2>EvaMS (amber)</h2>

@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Odometer</title>
-<link rel="stylesheet" href="gauge.css">
+<link rel="stylesheet" href="gauge.css?v=2">
 <style>
   .inst { gap: clamp(4px, 4cqh, 12px); align-content: center; }
   .odo {
@@ -16,13 +16,13 @@
     position: relative;
     inline-size: 0.72em; block-size: 1.18em;
     border-radius: 0.1em;
-    background: linear-gradient(oklch(0.06 0 none), oklch(0.19 0 none) 50%, oklch(0.06 0 none));
-    box-shadow: inset 0 0 0 1px var(--rim), inset 0 0.08em 0.12em oklch(0 0 none / 0.8);
+    background: var(--face);
+    box-shadow: inset 0 0 0 1px var(--rim);
     overflow: clip;
   }
   .drum::after {
     content: ""; position: absolute; inset: 0;
-    background: linear-gradient(oklch(0 0 none / 0.75), transparent 28%, transparent 72%, oklch(0 0 none / 0.75));
+    background: linear-gradient(var(--paper), transparent 30%, transparent 70%, var(--paper));
     pointer-events: none;
   }
   .reel { display: flex; flex-direction: column; transform: translateY(calc(var(--d, 0) * -1.18em)); }
@@ -39,7 +39,7 @@
   <div class="inst"><div class="odo" role="img"></div><div class="unit"></div></div>
   <footer class="cap"></footer>
 </main>
-<script src="gauge.js"></script>
+<script src="gauge.js?v=2"></script>
 <script>
   const { num, str, judge, state, el, caption, settle, fmt } = G;
   const v = num("value");

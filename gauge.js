@@ -6,9 +6,8 @@
   const hex = v => /^([0-9a-f]{3}|[0-9a-f]{6})$/i.test(v || "") ? "#" + v : null;
 
   if (hex(p.get("accent"))) root.style.setProperty("--accent", hex(p.get("accent")));
-  const bg = p.get("bg");
-  if (bg === "transparent") root.style.setProperty("--bg", "transparent");
-  else if (hex(bg)) root.style.setProperty("--bg", hex(bg));
+  if (hex(p.get("bg"))) { root.style.setProperty("--paper", hex(p.get("bg"))); root.dataset.card = ""; }
+  if (["light", "dark"].includes(p.get("theme"))) root.dataset.theme = p.get("theme");
 
   const WORDS = { fine: "Fine", look: "Look soon", broken: "Broken", unknown: "No reading" };
   const RANK = { fine: 0, unknown: 1, look: 2, broken: 3 };
