@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Status lights</title>
-<link rel="stylesheet" href="gauge.css?v=3">
+<link rel="stylesheet" href="gauge.css?v=4">
 <style>
   .inst { place-items: stretch; overflow: clip; }
   .grid {
@@ -38,7 +38,7 @@
 </head>
 <body>
 <main class="panel"><div class="inst"><div class="grid" role="list"></div></div><footer class="cap"></footer></main>
-<script src="gauge.js?v=3"></script>
+<script src="gauge.js?v=4"></script>
 <script>
   const { str, state, el, caption, WORDS, RANK } = G;
   const items = str("lights", "No lights set:unknown").split(",").map(x => {

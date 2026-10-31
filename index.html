@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mission control gauges</title>
 <style>
-  :root { color-scheme: dark; --bg: oklch(0.218 0 none); --fg: oklch(0.94 0 none); --muted: oklch(0.66 0 none); --rim: oklch(0.27 0 none); --accent: oklch(0.82 0.15 78); }
+  :root { color-scheme: dark; --bg: oklch(0.218 0 none); --fg: oklch(0.94 0 none); --muted: oklch(0.66 0 none); --rim: oklch(0.27 0 none); --accent: oklch(0.7 0.16 255); }
   * { box-sizing: border-box; }
   body { margin: 0; background: var(--bg); color: var(--fg); font: 15px/1.5 system-ui, sans-serif; }
   main { max-inline-size: 1100px; margin-inline: auto; padding: clamp(16px, 4vw, 40px) 16px; }
@@ -29,19 +29,19 @@
     <li><code>value</code>, <code>min</code>, <code>max</code>, <code>unit</code>, <code>label</code>: the reading and its words.</li>
     <li><code>look</code>, <code>broken</code>: limits that turn the gauge amber or red. Add <code>good=low</code> when smaller is better.</li>
     <li><code>state=fine|look|broken|unknown</code>: set the state yourself.</li>
-    <li><code>accent=f2a33a</code>: the project colour (hex, no #). <code>updated=</code> an ISO time adds "checked … ago".</li>
+    <li><code>accent=4d9fff</code>: the project colour (hex, no #). <code>updated=</code> an ISO time adds "checked … ago".</li>
     <li>By default a gauge has no backdrop, so it sits on the Notion page like text. It follows the page's light or dark theme. <code>theme=light|dark</code> forces one.</li>
     <li><code>bg=191919</code> (a hex): draw the gauge as a card on that colour instead.</li>
   </ul>
 
-  <h2>EvaMS (amber)</h2>
+  <h2>EvaMS (azure)</h2>
   <div class="row" id="evams"></div>
-  <h2>RPM Glass (teal)</h2>
+  <h2>RPM Glass (ice blue)</h2>
   <div class="row" id="rpm"></div>
 </main>
 <script>
   const ago = h => new Date(Date.now() - h * 3600000).toISOString();
-  const A = "accent=f2a33a", T = "accent=2dd4bf";
+  const A = "accent=4d9fff", T = "accent=7dd3fc";
   const sets = {
     evams: [
       `dial.html?${A}&label=Attendance health&value=92&max=100&unit=%25&look=85&broken=70`,

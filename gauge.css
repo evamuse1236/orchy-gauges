@@ -1,10 +1,10 @@
 /* Colours derive from the page (--paper), its text (--fg) and the project accent,
    so a gauge reads as part of the Notion page in dark and light themes. */
 :root {
-  --accent: oklch(0.82 0.15 78);
+  --accent: oklch(0.7 0.16 255);
   --paper: oklch(0.218 0 none);
   --fg: oklch(0.95 0.003 85);
-  --fine: oklch(0.78 0.18 148);
+  --fine: oklch(0.84 0.09 225);
   --look: oklch(0.74 0.17 52);
   --broken: oklch(0.65 0.23 27);
   --acc-ink: var(--accent);
@@ -26,7 +26,7 @@
   :root:not([data-theme="dark"]) {
     --paper: oklch(1 0 none);
     --fg: oklch(0.32 0.008 85);
-    --fine: oklch(0.58 0.15 148);
+    --fine: oklch(0.55 0.13 240);
     --look: oklch(0.62 0.16 52);
     --broken: oklch(0.55 0.21 27);
     --acc-ink: color-mix(in oklch, var(--accent) 78%, black);
@@ -36,7 +36,7 @@
 :root[data-theme="light"] {
   --paper: oklch(1 0 none);
   --fg: oklch(0.32 0.008 85);
-  --fine: oklch(0.58 0.15 148);
+  --fine: oklch(0.55 0.13 240);
   --look: oklch(0.62 0.16 52);
   --broken: oklch(0.55 0.21 27);
   --acc-ink: color-mix(in oklch, var(--accent) 78%, black);

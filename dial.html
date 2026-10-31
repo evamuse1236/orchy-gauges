@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dial gauge</title>
-<link rel="stylesheet" href="gauge.css?v=3">
+<link rel="stylesheet" href="gauge.css?v=4">
 <style>
   .needle { transform-box: view-box; transform-origin: 100px 100px; }
   .needle line { stroke: var(--ink); stroke-width: 3; stroke-linecap: round; filter: drop-shadow(0 0 3px var(--glow)); }
@@ -20,7 +20,7 @@
 </head>
 <body>
 <main class="panel"><div class="inst"></div><footer class="cap"></footer></main>
-<script src="gauge.js?v=3"></script>
+<script src="gauge.js?v=4"></script>
 <script>
   const { num, str, judge, state, svg, caption, settle, fmt } = G;
   const min = num("min", 0), max = num("max", 100), v = num("value");
